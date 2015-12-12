@@ -22,7 +22,7 @@ void AppClass::InitVariables(void)
     srand( static_cast<unsigned>( time( nullptr ) ) );
 
     // Create some cubes
-	m_nInstances = 512;
+	m_nInstances = 256;
 	for (int i = 0; i < m_nInstances; i++)
 	{
         String sInstance = "Cube_" + std::to_string( i );

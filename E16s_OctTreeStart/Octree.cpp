@@ -85,9 +85,11 @@ void Octree::Clear()
     }
     if ( HasSubdivided() )
     {
-        for ( auto& child : _children )
+        for ( auto iter = _children.begin(); iter != _children.end(); ++iter )
         {
-            if ( child ) child->Clear();
+            auto& child = *iter;
+            child->Clear();
+            child.reset();
         }
     }
 }
