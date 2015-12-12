@@ -5,10 +5,13 @@
 #include <array>
 #include <memory>
 #include <vector>
+#include <unordered_map>
 
 // Defines an octree
 class Octree
 {
+    static std::unordered_map<MyBOClass*, Octree*> ObjectOctreeCache;
+
     const int _subdivision;
     MyBOClass _bounds;
     std::array<std::shared_ptr<Octree>, 8> _children;
@@ -42,7 +45,10 @@ public:
     void Draw();
 
     // Gets the number of objects accounted for
-    size_t GetObjectCount();
+    size_t GetObjectCount() const;
+
+    // Checks to see if the given object is colliding with anything else
+    bool IsColliding( MyBOClass* object ) const;
 
     // Rebuild the octree based on all entities
     void Rebuild();

@@ -4,6 +4,8 @@
 
 #define HasSubdivided() (static_cast<bool>( _children[ 0 ] ))
 
+std::unordered_map<MyBOClass*, Octree*> Octree::ObjectOctreeCache;
+
 // New octree
 Octree::Octree()
     : _bounds( vector3(), vector3() )
@@ -44,6 +46,7 @@ bool Octree::AddObject( MyBOClass* object )
     if ( _objects->size() < 3 && !HasSubdivided() )
     {
         _objects->push_back( object );
+        ObjectOctreeCache[ object ] = this;
         return true;
     }
     else
@@ -54,6 +57,7 @@ bool Octree::AddObject( MyBOClass* object )
             if ( !Subdivide() )
             {
                 _objects->push_back( object );
+                ObjectOctreeCache[ object ] = this;
                 return true;
             }
         }
@@ -108,7 +112,7 @@ void Octree::Draw()
 }
 
 // Get the number of items in this octree
-size_t Octree::GetObjectCount()
+size_t Octree::GetObjectCount() const
 {
     size_t count = 0;
 
@@ -124,6 +128,34 @@ size_t Octree::GetObjectCount()
     }
 
     return count;
+}
+
+// Check if the given object is colliding with something
+bool Octree::IsColliding( MyBOClass* object ) const
+{
+    auto search = ObjectOctreeCache.find( object );
+    if ( search == ObjectOctreeCache.end() )
+    {
+        return false;
+    }
+
+    auto& objects = search->second->_objects;
+    if ( objects )
+    {
+        for ( auto& obj : *objects )
+        {
+            if ( obj == object )
+            {
+                continue;
+            }
+            if ( obj->IsColliding( object ) )
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 // Rebuild this octree
