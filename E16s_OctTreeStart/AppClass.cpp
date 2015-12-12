@@ -10,7 +10,7 @@ static inline float RandFloat( float min, float max )
 
 void AppClass::InitWindow(String a_sWindowName)
 {
-	super::InitWindow("E16: Octree start"); // Window Name
+	super::InitWindow("A12: Spatial Optimization"); // Window Name
 }
 
 void AppClass::InitVariables(void)
@@ -53,7 +53,25 @@ void AppClass::Update(void)
 	//First person camera movement
 	if (m_bFPC == true)
 		CameraRotation();
-	
+
+	if (m_bSO)
+	{
+		for (size_t i = 0; i < m_pBOMngr->GetObjectCount(); i++)
+		{
+			MyBOClass* boundingObject = m_pBOMngr->GetBoundingObject(i);
+
+			if (_octree->IsColliding(boundingObject))
+				m_pBOMngr->DisplayReAlligned(i, RERED);
+			else
+				m_pBOMngr->DisplayReAlligned(i);
+		}
+	}
+	else
+	{
+		m_pBOMngr->Update();
+		m_pBOMngr->DisplayReAlligned();
+	}
+
 	m_pMeshMngr->AddInstanceToRenderList("ALL");
 
 	//Indicate the FPS
@@ -63,7 +81,11 @@ void AppClass::Update(void)
 	//Print info on the screen
 	m_pMeshMngr->PrintLine(m_pSystem->GetAppName(), REYELLOW);
 	m_pMeshMngr->Print("FPS:");
-	m_pMeshMngr->Print(std::to_string(nFPS), RERED);
+	m_pMeshMngr->PrintLine(std::to_string(nFPS), RERED);
+	m_pMeshMngr->Print("Spatial Optimization <O> : ");
+	m_pMeshMngr->PrintLine(m_bSO ? "Octree" : "Brute Force", REBLUE);
+	m_pMeshMngr->Print("Display Octree <V> : ");
+	m_pMeshMngr->PrintLine(m_bVisualizeSO ? "On" : "Off", REGREEN);
 }
 
 void AppClass::Display(void)
@@ -87,7 +109,9 @@ void AppClass::Display(void)
 		break;
 	} */
 		
-   // _octree->Draw();
+	if (m_bVisualizeSO)
+		_octree->Draw();
+
 
 	m_pMeshMngr->Render(); //renders the render list
 

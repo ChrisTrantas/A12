@@ -188,6 +188,8 @@ void MyBOManager::DisplayReAlligned(int a_nIndex, vector3 a_v3Color)
 	{
 		for (uint nObject = 0; nObject < m_nObjectCount; nObject++)
 		{
+			v3Color = a_v3Color;
+
 			//Default will render in white for non colliding and red for colliding
 			if (v3Color == REDEFAULT)
 			{

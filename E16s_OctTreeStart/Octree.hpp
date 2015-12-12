@@ -45,7 +45,7 @@ public:
     void Draw();
 
     // Gets the number of objects accounted for
-    size_t GetObjectCount() const;
+	size_t GetObjectCount() const;
 
     // Checks to see if the given object is colliding with anything else
     bool IsColliding( MyBOClass* object ) const;

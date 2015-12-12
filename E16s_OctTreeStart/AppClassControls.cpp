@@ -7,7 +7,7 @@ void AppClass::ProcessKeyboard(void)
 #pragma region ON PRESS/RELEASE DEFINITION
 	static bool	bLastF1 = false, bLastF2 = false, bLastF3 = false, bLastF4 = false, bLastF5 = false,
 				bLastF6 = false, bLastF7 = false, bLastF8 = false, bLastF9 = false, bLastF10 = false,
-				bLastEscape = false, bLastF = false, bLastReturn = false, bLastSpace = false;
+				bLastEscape = false, bLastF = false, bLastReturn = false, bLastSpace = false, bLastV = false, bLastO = false;
 #define ON_KEY_PRESS_RELEASE(key, pressed_action, released_action){  \
 			bool pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::key);			\
 			if(pressed){											\
@@ -42,8 +42,8 @@ void AppClass::ProcessKeyboard(void)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		m_pCameraMngr->MoveVertical(fSpeed);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::O))
-		_octree->Draw();
+	ON_KEY_PRESS_RELEASE(V, NULL, m_bVisualizeSO = !m_bVisualizeSO);
+	ON_KEY_PRESS_RELEASE(O, NULL, m_bSO = !m_bSO);
 #pragma endregion
 
 #pragma region Other Actions

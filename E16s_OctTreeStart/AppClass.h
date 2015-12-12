@@ -16,7 +16,10 @@ class AppClass : public ReEngAppClass
 {
 	int m_nInstances = 255;
 	MyBOManager* m_pBOMngr = nullptr;
-    std::shared_ptr<Octree> _octree;
+	std::shared_ptr<Octree> _octree;
+
+	bool m_bSO = true;
+	bool m_bVisualizeSO = true;
 
 public:
 	typedef ReEngAppClass super;
