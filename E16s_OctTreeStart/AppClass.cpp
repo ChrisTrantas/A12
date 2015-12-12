@@ -88,7 +88,7 @@ void AppClass::Update(void)
 	m_pMeshMngr->Print("Display Octree <V> : ");
 	m_pMeshMngr->PrintLine(m_bVisualizeSO ? "On" : "Off", REGREEN);
 	m_pMeshMngr->PrintLine("Rebuild Octree <R>");
-	m_pMeshMngr->PrintLine("Randomize Positions <Space>");
+	m_pMeshMngr->PrintLine("Randomize Positions <Space> (Rebuild the tree manually)");
 }
 
 void AppClass::Display(void)
