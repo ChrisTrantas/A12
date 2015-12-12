@@ -24,6 +24,9 @@ class AppClass : public ReEngAppClass
 public:
 	typedef ReEngAppClass super;
 
+	void RandomizePositions();
+
+
 	/*
 	USAGE: Constructor
 	ARGUMENTS:

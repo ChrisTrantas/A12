@@ -33,6 +33,7 @@ void AppClass::InitVariables(void)
 		m_pBOMngr->AddObject(sInstance);
 	}
 
+
     // Create the octree
     _octree = std::make_shared<Octree>();
 
@@ -79,13 +80,15 @@ void AppClass::Update(void)
 	//print info into the console
 	printf("FPS: %d            \r", nFPS);//print the Frames per Second
 	//Print info on the screen
-	m_pMeshMngr->PrintLine(m_pSystem->GetAppName(), REYELLOW);
+	m_pMeshMngr->PrintLine("A12: Spatial Optimization", REYELLOW);
 	m_pMeshMngr->Print("FPS:");
 	m_pMeshMngr->PrintLine(std::to_string(nFPS), RERED);
 	m_pMeshMngr->Print("Spatial Optimization <O> : ");
 	m_pMeshMngr->PrintLine(m_bSO ? "Octree" : "Brute Force", REBLUE);
 	m_pMeshMngr->Print("Display Octree <V> : ");
 	m_pMeshMngr->PrintLine(m_bVisualizeSO ? "On" : "Off", REGREEN);
+	m_pMeshMngr->PrintLine("Rebuild Octree <R>");
+	m_pMeshMngr->PrintLine("Randomize Positions <Space>");
 }
 
 void AppClass::Display(void)
@@ -122,4 +125,16 @@ void AppClass::Release(void)
 {
 	m_pBOMngr->ReleaseInstance();
 	super::Release(); //release the memory of the inherited fields
+}
+
+void AppClass::RandomizePositions(void)
+{
+	for (int i = 0; i < m_pMeshMngr->GetInstanceCount(); i++)
+	{
+		matrix4 m4Positions = glm::translate(RandFloat(-10.0f, 10.0f),
+			RandFloat(-10.0f, 10.0f),
+			RandFloat(-10.0f, 10.0f));
+		m_pMeshMngr->SetModelMatrix(m4Positions, i);
+		m_pBOMngr->GetBoundingObject(i)->SetModelMatrix(m4Positions);
+	}
 }
